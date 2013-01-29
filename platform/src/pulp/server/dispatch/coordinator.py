@@ -212,7 +212,6 @@ class Coordinator(object):
         task_queue.lock()
 
         responses_list = []
-        call_resource_list = []
 
         try:
             for task in task_list:
@@ -236,15 +235,14 @@ class Coordinator(object):
 
                 if call_resources:
                     set_call_request_id_on_call_resources(task.call_request.id, call_resources)
-                    call_resource_list.extend(call_resources)
+                    # have to insert on each task to keep groups with malformed 
+                    # dependencies from stepping on each other
+                    self.call_resource_collection.insert(call_resources, safe=True)
 
             # for a call request group: if 1 of the tasks is rejected, then they are all rejected
             if reduce(lambda p, r: r is dispatch_constants.CALL_REJECTED_RESPONSE or p, responses_list, False):
                 map(lambda t: setattr(t.call_report, 'response', dispatch_constants.CALL_REJECTED_RESPONSE), task_list)
                 return
-
-            if call_resource_list:
-                self.call_resource_collection.insert(call_resource_list, safe=True)
 
             for task in task_list:
                 task_queue.enqueue(task)
