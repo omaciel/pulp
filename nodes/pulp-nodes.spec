@@ -18,7 +18,7 @@
 
 Name: pulp-nodes
 Version: 2.2.0
-Release: 0.1.alpha%{?dist}
+Release: 0.2.alpha%{?dist}
 Summary: Support for pulp nodes
 Group: Development/Languages
 License: GPLv2
@@ -167,6 +167,7 @@ Group: Development/Languages
 Requires: %{name}-common = %{version}
 Requires: pulp-server = %{pulp_version}
 Requires: pulp-consumer-client = %{pulp_version}
+Requires: pulp-agent = %{pulp_version}
 Requires: python-pulp-agent-lib = %{pulp_version}
 Requires: gofer >= 0.74
 
@@ -258,6 +259,9 @@ fi
 
 
 %changelog
+* Fri Apr 19 2013 Jeff Ortel <jortel@redhat.com> 2.2.0-0.2.alpha
+- 
+
 * Fri Apr 12 2013 Jeff Ortel <jortel@redhat.com> 2.2.0-0.1.alpha
 - 922229 - fix progress rendering. rendering depends on bindings processed in a
   determined order.  Perhaps fragile and should revisit progress rendering.
