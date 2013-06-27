@@ -453,7 +453,6 @@ class TestDistributor(PluginTestBase):
         # Verify
         conf = DownloaderConfig()
         downloader = HTTPSCurlDownloader(conf)
-        manifest = Manifest()
         pub = dist.publisher(repo, self.dist_conf())
         url = '/'.join((pub.base_url, pub.manifest_path()))
         manifest = Manifest()
@@ -468,8 +467,9 @@ class TestDistributor(PluginTestBase):
                 self.assertEqual(created[p], v)
             self.assertEqual(created.get('_storage_path'), unit['storage_path'])
             self.assertEqual(unit['type_id'], self.UNIT_TYPE_ID)
-        manager = manager.get_repository
-
+        manager = managers.repo_manager()
+        scratchpad = manager.get_repo_scratchpad(self.REPO_ID)
+        self.assertEqual(scratchpad[constants.MANIFEST_ID_SCRATCHPAD_KEY], manifest.id)
 
 class ImporterTest(PluginTestBase):
 

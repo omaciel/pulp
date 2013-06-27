@@ -153,7 +153,7 @@ class NodesHttpDistributor(Distributor):
             publisher.commit()
         details = dict(unit_count=len(units))
         scratchpad = {constants.MANIFEST_ID_SCRATCHPAD_KEY: manifest.id}
-        conduit.update_repo_scratchpad(**scratchpad)
+        conduit.update_repo_scratchpad(scratchpad)
         return conduit.build_success_report('succeeded', details)
 
     def publisher(self, repo, config):
