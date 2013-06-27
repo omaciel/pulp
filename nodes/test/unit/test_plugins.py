@@ -468,6 +468,7 @@ class TestDistributor(PluginTestBase):
                 self.assertEqual(created[p], v)
             self.assertEqual(created.get('_storage_path'), unit['storage_path'])
             self.assertEqual(unit['type_id'], self.UNIT_TYPE_ID)
+        manager = manager.get_repository
 
 
 class ImporterTest(PluginTestBase):

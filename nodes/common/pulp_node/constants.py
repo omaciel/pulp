@@ -50,6 +50,8 @@ PUBLISHED_AS_FILE = 'published_as_file'
 PUBLISHED_AS_TARBALL = 'published_as_tarball'
 PUBLISHING_METHODS = [PUBLISHED_AS_FILE, PUBLISHED_AS_TARBALL]
 
+MANIFEST_ID_SCRATCHPAD_KEY = 'node_published_manifest_id'
+
 
 # --- consumer notes ---------------------------------------------------------
 

@@ -22,6 +22,7 @@ from pulp_node import link
 from pulp_node import constants
 from pulp_node.conduit import NodesConduit
 from pulp_node.distributors.http.publisher import HttpPublisher
+from pulp_node.manifest import Manifest
 
 
 _LOG = getLogger(__name__)
@@ -146,9 +147,13 @@ class NodesHttpDistributor(Distributor):
         nodes_conduit = NodesConduit()
         units = nodes_conduit.get_units(repo.id)
         with self.publisher(repo, config) as publisher:
-            publisher.publish(units)
+            manifest_path = publisher.publish(units)
+            manifest = Manifest()
+            manifest.read(manifest_path)
             publisher.commit()
         details = dict(unit_count=len(units))
+        scratchpad = {constants.MANIFEST_ID_SCRATCHPAD_KEY: manifest.id}
+        conduit.update_repo_scratchpad(**scratchpad)
         return conduit.build_success_report('succeeded', details)
 
     def publisher(self, repo, config):
